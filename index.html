@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>DARSHAN ENTERPRISES</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<style>
+	body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f0f0f0;
+}
+
+.container {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	max-width: 600px;
+	width: 100%;
+}
+
+.container h1 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.container label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.container input,
+.container textarea {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.container button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
+	margin-top: 10px;
+}
+
+.container button:hover {
+	background-color: #45a049;
+}
+table, th, td {
+  border: 1px solid black;
+}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h3><center>DARSHAN ENTERPRISES</center></h3>
+		<form id="quotation-form">
+			<label for="customer-name">Customer Name:</label>
+			<input type="text" id="customer-name" required>
+
+			<label for="notes">Address:</label>
+			<textarea id="address"></textarea>
+			
+			<label for="customer-name">SL.No:</label>
+			<input type="text" id="sl-no" required>
+
+			<label for="item-name">Item Name:</label>
+			<input type="text" id="item-name" required>
+
+			<label for="quantity">Quantity:</label>
+			<input type="number" id="quantity" required>
+
+			<label for="price">Price:</label>
+			<input type="number" id="price" required>
+
+			<label for="date">Date:</label>
+			<input type="date" id="date" required>
+
+			<button type="button" id="generate-pdf-btn">Generate Bill</button>
+		</form>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+	<script>
+	const form = document.getElementById('quotation-form');
+const generatePdfBtn = document.getElementById('generate-pdf-btn');
+
+generatePdfBtn.addEventListener('click', () => {
+	const customerName = document.getElementById('customer-name').value;
+	const serialnumber = document.getElementById('sl-no').value;
+	const itemName = document.getElementById('item-name').value;
+	const quantity = document.getElementById('quantity').value;
+	const price = document.getElementById('price').value;
+	const date = document.getElementById('date').value;
+	const address = document.getElementById('address').value;
+
+	const content = `
+		<h3 style="color:blue;">Darshan Enterprices</h3>
+		<p> Phone : 9008233193 <br/> Email : hikcamera@gmail.com <br/> Address : Sadashivgad,
+Karwar 581352
+</p>
+            <p>To: ${customerName} <br/>
+			${address}</p>
+        <br/>
+<table style="width:100%">
+  <tr>
+    <th style="border:1px solid black;">SL.No</th>
+    <th style="border:1px solid black;">Particular</th>
+    <th style="border:1px solid black;">Quantity</th>
+	<th style="border:1px solid black;">Amount</th>
+  </tr>
+  <tr>
+    <td style="border:1px solid black;">${serialnumber}</td>
+    <td style="border:1px solid black;">${itemName}</td>
+    <td style="border:1px solid black;">${quantity}</td>
+	<td style="border:1px solid black;">${price}</td>
+  </tr>
+</table>
+		<p>If you have any questions or require further assistance, please feel free to contact us at <b>9008233193</b> or
+<b>hikcamera@gmail.com</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<br/><p>Thank you for considering <b>DARSHAN ENTERPRISES</b> for your CCVT Service needs.</p>
+
+<br/>
+<br/>
+		<p>Date : <U>${date}</U> </p>
+		<p>Signature : ....................</p>
+	`;
+
+	const pdf = new jsPDF();
+	pdf.fromHTML(content, 15, 15, {
+		'width': 180
+	});
+	pdf.save('quotation.pdf');
+});
+	</script>
+</body>
+</html>
